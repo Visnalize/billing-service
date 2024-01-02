@@ -36,8 +36,10 @@ app.get("/verify", async (req, res) => {
     });
 
     res.json(isActive);
+    console.info("✅", "/verify", email, productIds);
   } catch (err) {
     res.json(err).status(500);
+    console.error("❌", err);
   }
 });
 
@@ -46,7 +48,7 @@ app.get("/products", async (req, res) => {
   try {
     const response = await ls.getProducts();
     const products = response.data
-      .filter((p) => p.attributes.name.toLowerCase().includes(name || ""))
+      .filter((p) => p.attributes.slug.includes(name || ""))
       .map((p) => {
         const { store_id, price_formatted } = p.attributes;
         const [price, period] = price_formatted.split("/");
@@ -58,8 +60,10 @@ app.get("/products", async (req, res) => {
         };
       });
     res.json(products);
+    console.info("✅", "/products", name);
   } catch (err) {
     res.json(err).status(500);
+    console.error("❌", err);
   }
 });
 
