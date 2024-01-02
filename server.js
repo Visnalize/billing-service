@@ -14,6 +14,7 @@ app.get("/verify", async (req, res) => {
   const { email, productIds: _productIds } = req.query;
 
   if (!email || !_productIds) {
+    console.error("❌", "/verify", _productIds);
     return res.json(false).status(400);
   }
 
@@ -25,6 +26,7 @@ app.get("/verify", async (req, res) => {
     });
 
     if (!response.included) {
+      console.error("❌", "/verify", email, _productIds);
       return res.json(false).status(404);
     }
 
@@ -35,11 +37,11 @@ app.get("/verify", async (req, res) => {
         : productIds.includes(first_order_item.product_id) && status === "paid";
     });
 
+    console.info("✅", "/verify", email, _productIds);
     res.json(isActive);
-    console.info("✅", "/verify", email, productIds);
   } catch (err) {
-    res.json(err).status(500);
     console.error("❌", err);
+    res.json(err).status(500);
   }
 });
 
@@ -59,11 +61,11 @@ app.get("/products", async (req, res) => {
           prettyPrice: price,
         };
       });
-    res.json(products);
     console.info("✅", "/products", name);
+    res.json(products);
   } catch (err) {
-    res.json(err).status(500);
     console.error("❌", err);
+    res.json(err).status(500);
   }
 });
 
