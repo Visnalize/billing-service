@@ -16,7 +16,7 @@ const products = async (req, res) => {
         return {
           id: p.id,
           storeId: store_id,
-          type: period ? "directSubscription" : "oneTime",
+          type: period ? 1 : 2, // 1 = subscription, 2 = one-time
           prettyPrice: price,
         };
       });
