@@ -31,7 +31,7 @@ const verify = async (req, res) => {
         : productIds.includes(first_order_item.product_id) && status === "paid";
     });
 
-    console.info("✅", "/verify", email, _productIds);
+    console.info(isActive ? "✅" : "❌", "/verify", email, _productIds);
     res.json(isActive);
   } catch (err) {
     console.error("❌", err);
